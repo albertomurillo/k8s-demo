@@ -12,14 +12,14 @@ import (
 )
 
 type configuration struct {
-	Port    int    `required:"true"`
-	Message string `default:"World!"`
+	Port    int    `envconfig:"BACKEND_PORT" required:"true"`
+	Message string `envconfig:"BACKEND_MESSAGE" default:"World!"`
 }
 
 var config configuration
 
 func main() {
-	err := envconfig.Process("backend", &config)
+	err := envconfig.Process("k8sdemo", &config)
 	if err != nil {
 		log.Fatal(err.Error())
 	}

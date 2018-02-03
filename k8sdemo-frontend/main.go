@@ -14,15 +14,15 @@ import (
 )
 
 type configuration struct {
-	Port       int    `required:"true"`
-	Greeting   string `default:"Hello"`
-	BackendURL string `required:"true" envconfig:"BACKEND_URL"`
+	Port       int    `envconfig:"FRONTEND_PORT" required:"true"`
+	Greeting   string `envconfig:"FRONTEND_GREETING" default:"Hello"`
+	BackendURL string `envconfig:"BACKEND_URL" required:"true"`
 }
 
 var config configuration
 
 func main() {
-	err := envconfig.Process("frontend", &config)
+	err := envconfig.Process("k8sdemo", &config)
 	if err != nil {
 		log.Fatal(err.Error())
 	}
