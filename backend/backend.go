@@ -11,12 +11,12 @@ import (
 	"github.com/kelseyhightower/envconfig"
 )
 
-type Configuration struct {
+type configuration struct {
 	Port    int    `required:"true"`
 	Message string `default:"World!"`
 }
 
-var config Configuration
+var config configuration
 
 func main() {
 	err := envconfig.Process("backend", &config)
@@ -25,12 +25,12 @@ func main() {
 	}
 
 	router := mux.NewRouter()
-	router.HandleFunc("/", ReturnMessage).Methods("GET")
+	router.HandleFunc("/", returnMessage).Methods("GET")
 	listenAddress := fmt.Sprintf(":%d", config.Port)
 	log.Fatal(http.ListenAndServe(listenAddress, router))
 }
 
-func ReturnMessage(w http.ResponseWriter, r *http.Request) {
+func returnMessage(w http.ResponseWriter, r *http.Request) {
 	var response = payload.Message{
 		Message: config.Message,
 	}

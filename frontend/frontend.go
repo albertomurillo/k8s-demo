@@ -13,13 +13,13 @@ import (
 	"github.com/kelseyhightower/envconfig"
 )
 
-type Configuration struct {
+type configuration struct {
 	Port       int    `required:"true"`
 	Greeting   string `default:"Hello"`
-	BackendUrl string `required:"true" envconfig:"BACKEND_URL"`
+	BackendURL string `required:"true" envconfig:"BACKEND_URL"`
 }
 
-var config Configuration
+var config configuration
 
 func main() {
 	err := envconfig.Process("frontend", &config)
@@ -28,16 +28,16 @@ func main() {
 	}
 
 	router := mux.NewRouter()
-	router.HandleFunc("/", ReturnMessage).Methods("GET")
+	router.HandleFunc("/", returnMessage).Methods("GET")
 	listenAddress := fmt.Sprintf(":%d", config.Port)
 	log.Fatal(http.ListenAndServe(listenAddress, router))
 }
 
-func ReturnMessage(w http.ResponseWriter, r *http.Request) {
+func returnMessage(w http.ResponseWriter, r *http.Request) {
 	var backendMessage payload.Message
 	var response payload.Message
 
-	resp, err := http.Get(config.BackendUrl)
+	resp, err := http.Get(config.BackendURL)
 	if err != nil {
 		fmt.Print(err.Error())
 		os.Exit(1)
